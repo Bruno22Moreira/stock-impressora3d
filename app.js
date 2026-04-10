@@ -10,14 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const exportBtn = document.getElementById("exportBtn");
   const darkBtn = document.getElementById("darkBtn");
 
-  /* =====================
-     GUARDAR
-  ===================== */
   const saveStock = () =>
     localStorage.setItem("stock", JSON.stringify(stock));
 
   const saveHistory = () =>
     localStorage.setItem("history", JSON.stringify(history));
+
+  // Converter datas do Excel
+  const excelDateToJS = (serial) => {
+    if (typeof serial !== "number") return serial || "";
+    const utcDays = Math.floor(serial - 25569);
+    return new Date(utcDays * 86400 * 1000).toLocaleDateString("pt-PT");
+  };
 
   /* =====================
      RENDER
@@ -26,23 +30,25 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.innerHTML = "";
 
     if (data.length === 0) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="8">Nenhum resultado encontrado</td>`;
-      tbody.appendChild(tr);
+      tbody.innerHTML = `<tr><td colspan="8">Nenhum resultado encontrado</td></tr>`;
       return;
     }
 
-    data.forEach(item => {
+    data.forEach((item, i) => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
         <td>${item.quantidade}</td>
         <td>${item.material}</td>
         <td>${item.descricao}</td>
         <td>${item.marca}</td>
-        <td>${item.compra || ""}</td>
-        <td>${item.link || ""}</td>
-        <td>${item.notas || ""}</td>
-        <td>-</td>
+        <td>${item.compra}</td>
+        <td><a href="${item.link}" target="_blank">Link</a></td>
+        <td>${item.notas}</td>
+        <td>
+          <button onclick="changeQty(${i}, 1)">➕</button>
+          <button onclick="changeQty(${i}, -1)">➖</button>
+          <button onclick="editItem(${i})">✏️</button>
+        </td>
       `;
       tbody.appendChild(tr);
     });
@@ -55,44 +61,33 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   searchInput.addEventListener("input", () => {
     const q = searchInput.value.toLowerCase();
-
-    const filtered = stock.filter(item =>
-      String(item.material).toLowerCase().includes(q) ||
-      String(item.descricao).toLowerCase().includes(q) ||
-      String(item.marca).toLowerCase().includes(q) ||
-      String(item.notas).toLowerCase().includes(q)
+    renderTable(
+      stock.filter(i =>
+        String(i.material).toLowerCase().includes(q) ||
+        String(i.descricao).toLowerCase().includes(q) ||
+        String(i.marca).toLowerCase().includes(q) ||
+        String(i.notas).toLowerCase().includes(q)
+      )
     );
-
-    renderTable(filtered);
   });
 
   /* =====================
      IMPORTAR EXCEL ✅
   ===================== */
-  importBtn.addEventListener("click", () => {
-    excelInput.click();
-  });
+  importBtn.onclick = () => excelInput.click();
 
-  excelInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
+  excelInput.onchange = (e) => {
     const reader = new FileReader();
-
-    reader.onload = (evt) => {
-      const data = new Uint8Array(evt.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-
-      const sheetName = workbook.SheetNames[0];
-      const worksheet = workbook.Sheets[sheetName];
-      const rows = XLSX.utils.sheet_to_json(worksheet);
+    reader.onload = evt => {
+      const wb = XLSX.read(new Uint8Array(evt.target.result), { type: "array" });
+      const rows = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
 
       stock = rows.map(r => ({
         quantidade: Number(r["Quantidade"]) || 0,
         material: r["Material"] || "",
         descricao: r["Descrição"] || "",
         marca: r["Marca"] || "",
-        compra: r["Compra"] || "",
+        compra: excelDateToJS(r["Compra"]),
         link: r["Link"] || "",
         notas: r["Notas"] || ""
       }));
@@ -100,15 +95,57 @@ document.addEventListener("DOMContentLoaded", () => {
       saveStock();
       renderTable();
     };
+    reader.readAsArrayBuffer(e.target.files[0]);
+  };
 
-    reader.readAsArrayBuffer(file);
-  });
+  /* =====================
+     EXPORTAR EXCEL ✅
+  ===================== */
+  exportBtn.onclick = () => {
+    const ws = XLSX.utils.json_to_sheet(stock);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, "Stock");
+    XLSX.writeFile(wb, "stock.xlsx");
+  };
+
+  /* =====================
+     ➕ ➖
+  ===================== */
+  window.changeQty = (index, delta) => {
+    stock[index].quantidade += delta;
+    history.push({
+      data: new Date().toLocaleString("pt-PT"),
+      material: stock[index].material,
+      tipo: delta > 0 ? "Entrada" : "Saída",
+      quantidade: Math.abs(delta),
+      stockFinal: stock[index].quantidade
+    });
+    saveStock();
+    saveHistory();
+    renderTable();
+  };
+
+  /* =====================
+     ✏️ EDITAR (com password simples)
+  ===================== */
+  window.editItem = (index) => {
+    const code = prompt("Código para editar:");
+    if (code !== "2222") return alert("Código errado");
+
+    const item = stock[index];
+    item.material = prompt("Material:", item.material);
+    item.descricao = prompt("Descrição:", item.descricao);
+    item.marca = prompt("Marca:", item.marca);
+    item.notas = prompt("Notas:", item.notas);
+
+    saveStock();
+    renderTable();
+  };
 
   /* =====================
      DARK MODE
   ===================== */
-  darkBtn.addEventListener("click", () => {
+  darkBtn.onclick = () =>
     document.body.classList.toggle("dark");
-  });
 
 });
