@@ -3,37 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <title>Stock Impressora 3D</title>
-  <link rel="stylesheet" href="styleclass="top-bar">
-  <h1>📦 Stock Impressora 3D</h1>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-  <input type="text" id="search" placeholder="Pesquisar material...">
+<h1>Stock Impressora 3D</h1>
 
-  <a href="history.htmlico</a>
+<input type="file" id="excelInput" accept=".xlsx,.csv">
+<button id="importBtn">Importar Excel</button>
 
-  <input type="file" id="excelInput" accept=".xlsx,.csv" hidden>
-  <button id="importBtn">📥 Importar Excel</button>
-  <button id="exportBtn">📤 Exportar Excel</button>
+<table id="stockTable" border="1">
+  <thead>
+    <tr>
+      <th>Quantidade</th>
+      <th>Material</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
 
-  <button id="darkBtn">🌙 / ☀️</button>
+<!-- ✅ XLSX LOCAL -->
+<script src="xlsx.full.min.js"></script>
 
-  <img src="logo.png" alt="Logo<table id="stockTable">
-    <thead>
-      <tr>
-        <th>Quantidade</th>
-        <th>Material</th>
-        <th>Descrição</th>
-        <th>Marca</th>
-        <th>Compra</th>
-        <th>Link</th>
-        <th>Notas</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
-</main>
-
-<script src="xlsx.full.min.jsript src="app.js"></script>
+<!-- ✅ APP -->
+<script src="app.js"></script>
 
 </body>
 </html>
