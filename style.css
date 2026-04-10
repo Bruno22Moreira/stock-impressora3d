@@ -1,0 +1,230 @@
+/* RESET BÁSICO */
+* {
+  box-sizing: border-box;
+  font-family: Calibri, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  background: #f3f3f3;
+  color: #222;
+}
+
+/* HEADER */
+header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 12px 20px;
+  background: #1f2937;
+  color: white;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 20px;
+}
+
+header input {
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+header a {
+  color: #ffd966;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+header button {
+  cursor: pointer;
+}
+
+/* MAIN */
+main {
+  padding: 20px;
+}
+
+/* TABELA — ESTILO EXCEL */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  font-size: 14px;
+}
+
+/* CABEÇALHO */
+thead th {
+  position: sticky;
+  top: 0;
+  background: #e5e7eb;
+  border: 1px solid #cbd5e1;
+  padding: 8px;
+  text-align: left;
+  font-weight: bold;
+}
+
+/* LINHAS */
+tbody td {
+  border: 1px solid #e2e8f0;
+  padding: 6px 8px;
+}
+
+/* LINHAS ALTERNADAS (ZEBRA) */
+tbody tr:nth-child(even) {
+  background: #f8fafc;
+}
+
+/* HOVER */
+tbody tr:hover {
+  background: #dbeafe;
+}
+
+/* COLUNA QUANTIDADE */
+td:first-child {
+  text-align: right;
+  font-weight: bold;
+}
+
+/* BOTÕES */
+button {
+  border: 1px solid #9ca3af;
+  background: #f9fafb;
+  padding: 2px 6px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #e5e7eb;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+  min-width: 280px;
+}
+
+.modal-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.hidden {
+  display: none;
+}
+
+/* DARK MODE (opcional) */
+body.dark {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark table {
+  background: #1f2937;
+}
+
+body.dark thead th {
+  background: #374151;
+  color: white;
+}
+
+body.dark tbody tr:nth-child(even) {
+  background: #111827;
+}
+.top-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo {
+  margin-left: auto;
+  height: 40px;
+  object-fit: contain;
+}
+
+/* =====================
+   ANIMAÇÕES DE MODAL
+===================== */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.25s ease;
+  z-index: 1000;
+}
+
+.modal.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  min-width: 320px;
+  transform: scale(1);
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+.modal.hidden .modal-content {
+  transform: scale(0.9);
+  opacity: 0;
+}
+
+/* =====================
+   DARK MODE - HISTÓRICO
+===================== */
+
+body.dark {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark header {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark table {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+body.dark th {
+  background: #374151;
+}
+
+body.dark td {
+  border-color: #374151;
+}
+
+body.dark a {
+  color: #93c5fd;
+}
+
+/* gráfico */
+body.dark canvas {
+  background: transparent;
+}
+
+``

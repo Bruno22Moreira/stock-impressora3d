@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Histórico</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <h1>📜 Histórico de Movimentos</h1>
+
+  <a href="index.html">⬅ Voltar ao Stock</a>
+
+  <button id="darkBtn" style="margin-left:20px;">
+    🌙 / ☀️
+  </button>
+</header>
+
+<main>
+
+  <!-- GRÁFICO -->
+  <section style="margin-bottom:20px;">
+    <h2>📊 Consumo por Material</h2>
+
+    <!-- CONTENTOR COM ALTURA FIXA (EVITA LOOP) -->
+    <div style="height:200px;">
+      <canvas id="usageChart"></canvas>
+    </div>
+  </section>
+
+  <!-- TABELA -->
+  <table>
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Material</th>
+        <th>Tipo</th>
+        <th>Quantidade</th>
+        <th>Stock Final</th>
+      </tr>
+    </thead>
+    <tbody id="historyTable"></tbody>
+  </table>
+
+</main>
+
+<!-- ✅ CHART.JS LOCAL (TEM DE EXISTIR NA MESMA PASTA) -->
+<script src="chart.min.js"></script>
+
+<!-- ✅ TEU JAVASCRIPT -->
+<script src="history.js"></script>
+
+</body>
+</html>

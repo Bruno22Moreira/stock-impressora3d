@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <title>Stock Impressora 3D</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top-bar">
+  <h1>📦 Stock Impressora 3D</h1>
+
+  <input type="text" id="search" placeholder="Pesquisar material...">
+
+  <a href="history.html">📜 Histórico</a>
+
+  <input type="file" id="excelInput" accept=".xlsx,.csv" hidden>
+  <button id="importBtn">📥 Importar Excel</button>
+
+  <button id="exportBtn">📤 Exportar Excel</button>
+
+  <button id="darkBtn">🌙 / ☀️</button>
+
+  <!-- LOGO -->
+  <img src="logo.png" alt="Logo" class="logo">
+</header>
+
+<main>
+  <table id="stockTable">
+    <thead>
+      <tr>
+        <th data-key="quantidade">Quantidade</th>
+        <th data-key="material">Material</th>
+        <th data-key="descricao">Descrição</th>
+        <th data-key="marca">Marca</th>
+        <th data-key="compra">Compra</th>
+        <th data-key="link">Link</th>
+        <th data-key="notas">Notas</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</main>
+
+<!-- MODAL ➕ ➖ -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h2 id="modalTitle"></h2>
+
+    <input type="number" id="modalQuantity" min="1">
+
+    <div class="modal-actions">
+      <button id="confirmBtn">Confirmar</button>
+      <button onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE CÓDIGO (IMPORTAR / EXPORTAR / EDITAR) -->
+<div id="codeModal" class="modal hidden">
+  <div class="modal-content">
+
+    <h2 id="codeModalTitle">Introduzir código</h2>
+
+    <p id="codeModalText">
+      Introduz o código para continuar:
+    </p>
+
+    <input
+      type="password"
+      id="codeInput"
+      placeholder="Código"
+      autocomplete="off"
+    >
+
+    <div class="modal-actions">
+      <button id="codeConfirmBtn">Confirmar</button>
+      <button id="codeCancelBtn">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- MODAL DE EDIÇÃO -->
+<div id="editModal" class="modal hidden">
+  <div class="modal-content">
+
+    <h2>✏️ Editar Artigo</h2>
+
+    <input id="editMaterial" placeholder="Material">
+    <input id="editDescricao" placeholder="Descrição">
+    <input id="editMarca" placeholder="Marca">
+    <input id="editCompra" placeholder="Compra">
+    <input id="editLink" placeholder="Link">
+    <input id="editNotas" placeholder="Notas">
+
+    <div class="modal-actions">
+      <button id="saveEditBtn">Guardar</button>
+      <button onclick="closeEditModal()">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- BIBLIOTECA EXCEL -->
+<script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<!-- TEU JAVASCRIPT -->
+<script src="app.js"></script>
+
+</body>
+</html>
