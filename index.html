@@ -3,30 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <title>Stock Impressora 3D</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
 
-<h1>Stock Impressora 3D</h1>
+<header class="top-bar">
+  <h1>📦 Stock Impressora 3D</h1>
 
-<input type="file" id="excelInput" accept=".xlsx,.csv">
-<button id="importBtn">Importar Excel</button>
+  <input type="text" id="search" placeholder="Pesquisar material...">
 
-<table id="stockTable" border="1">
-  <thead>
-    <tr>
-      <th>Quantidade</th>
-      <th>Material</th>
-    </tr>
-  </thead>
-  <tbody></tbody>
-</table>
+  <a href="./history.html">📜 Histórico</a>
 
-<!-- ✅ XLSX LOCAL -->
-<script src="xlsx.full.min.js"></script>
+  <input type="file" id="excelInput" accept=".xlsx,.csv" hidden>
+  <button id="importBtn">📥 Importar Excel</button>
+  <button id="exportBtn">📤 Exportar Excel</button>
 
-<!-- ✅ APP -->
-<script src="app.js"></script>
+  <button id="darkBtn">🌙 / ☀️</button>
+
+  <img src="./logo.png" alt="Logo" class="logo">
+</header>
+
+<main>
+  <table id="stockTable">
+    <thead>
+      <tr>
+        <th>Quantidade</th>
+        <th>Material</th>
+        <th>Descrição</th>
+        <th>Marca</th>
+        <th>Compra</th>
+        <th>Link</th>
+        <th>Notas</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</main>
+
+<script src="./xlsx.full.min.js"></script>
+<script src="./app.js"></script>
 
 </body>
 </html>
