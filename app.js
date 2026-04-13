@@ -41,7 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${item.material}</td>
         <td>${item.descricao}</td>
         <td>${item.marca}</td>
-        <td>${item.compra}</td>
         <td><a href="${item.link}" target="_blank">Link</a></td>
         <td>${item.notas}</td>
         <td>
