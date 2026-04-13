@@ -6,8 +6,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const tbody = document.querySelector("#stockTable tbody");
   const searchInput = document.getElementById("search");
   const excelInput = document.getElementById("excelInput");
-  const importBtn = document.getElementById("importBtn");
-  const exportBtn = document.getElementById("exportBtn");
+  let importBtn = document.getElementById("importBtn");
+  let exportBtn = document.getElementById("exportBtn");
   const darkBtn = document.getElementById("darkBtn");
 
   /* =====================
@@ -15,7 +15,11 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   const IMPORT_CODE = "2222";
   const EXPORT_CODE = "2222";
+  const EDIT_CODE   = "2222";
 
+  /* =====================
+     GUARDAR
+  ===================== */
   const saveStock = () =>
     localStorage.setItem("stock", JSON.stringify(stock));
 
@@ -29,7 +33,8 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.innerHTML = "";
 
     if (data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="7">Nenhum resultado encontrado</td></tr>`;
+      tbody.innerHTML =
+        `<tr><td colspan="7">Nenhum resultado encontrado</td></tr>`;
       return;
     }
 
@@ -69,19 +74,31 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   });
 
-  /* =====================
-     IMPORTAR EXCEL (COM PASSWORD ✅)
-  ===================== */
-  importBtn.onclick = () => {
+  /* =========================================================
+     IMPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
+  ========================================================= */
+
+  // remover listeners antigos
+  importBtn.replaceWith(importBtn.cloneNode(true));
+  importBtn = document.getElementById("importBtn");
+
+  importBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     const code = prompt("Código para importar Excel:");
     if (code !== IMPORT_CODE) {
       alert("❌ Código incorreto.");
       return;
     }
-    excelInput.click();
-  };
 
-  excelInput.onchange = (e) => {
+    excelInput.value = "";
+    excelInput.click();
+  });
+
+  excelInput.addEventListener("change", (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
     const reader = new FileReader();
     reader.onload = evt => {
       const wb = XLSX.read(new Uint8Array(evt.target.result), { type: "array" });
@@ -99,13 +116,20 @@ document.addEventListener("DOMContentLoaded", () => {
       saveStock();
       renderTable();
     };
-    reader.readAsArrayBuffer(e.target.files[0]);
-  };
 
-  /* =====================
-     EXPORTAR EXCEL (COM PASSWORD ✅)
-  ===================== */
-  exportBtn.onclick = () => {
+    reader.readAsArrayBuffer(file);
+  });
+
+  /* =========================================================
+     EXPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
+  ========================================================= */
+
+  exportBtn.replaceWith(exportBtn.cloneNode(true));
+  exportBtn = document.getElementById("exportBtn");
+
+  exportBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
     const code = prompt("Código para exportar Excel:");
     if (code !== EXPORT_CODE) {
       alert("❌ Código incorreto.");
@@ -116,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Stock");
     XLSX.writeFile(wb, "stock.xlsx");
-  };
+  });
 
   /* =====================
      ➕ ➖
@@ -142,7 +166,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   window.editItem = (index) => {
     const code = prompt("Código para editar:");
-    if (code !== "2222") {
+    if (code !== EDIT_CODE) {
       alert("❌ Código incorreto.");
       return;
     }
@@ -160,8 +184,8 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =====================
      DARK MODE
   ===================== */
-  darkBtn.onclick = () =>
+  darkBtn.addEventListener("click", () => {
     document.body.classList.toggle("dark");
+  });
 
 });
-``
