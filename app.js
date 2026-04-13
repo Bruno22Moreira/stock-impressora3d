@@ -86,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
         material: r["Material"] || "",
         descricao: r["Descrição"] || "",
         marca: r["Marca"] || "",
-        compra: excelDateToJS(r["Compra"]),
         link: r["Link"] || "",
         notas: r["Notas"] || ""
       }));
