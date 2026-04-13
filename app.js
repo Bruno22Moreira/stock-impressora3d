@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =========================================================
-     IMPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
+     IMPORTAR EXCEL (COM PASSWORD ✅)
   ========================================================= */
   importBtn.replaceWith(importBtn.cloneNode(true));
   importBtn = document.getElementById("importBtn");
@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =========================================================
-     EXPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
+     EXPORTAR EXCEL (COM PASSWORD ✅)
   ========================================================= */
   exportBtn.replaceWith(exportBtn.cloneNode(true));
   exportBtn = document.getElementById("exportBtn");
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =========================================================
-     ✅ PASSO 3 — ➕ NOVO ARTIGO (ABRIR / FECHAR MODAL)
+     ➕ NOVO ARTIGO — ABRIR / FECHAR MODAL
   ========================================================= */
   const addItemBtn = document.getElementById("addItemBtn");
   const addModal = document.getElementById("addModal");
@@ -199,5 +199,37 @@ document.addEventListener("DOMContentLoaded", () => {
     addModal.classList.add("hidden");
   };
 
+  /* =========================================================
+     ✅ PASSO 4 — GUARDAR NOVO ARTIGO
+  ========================================================= */
+  const newQuantidade = document.getElementById("newQuantidade");
+  const newMaterial = document.getElementById("newMaterial");
+  const newDescricao = document.getElementById("newDescricao");
+  const newMarca = document.getElementById("newMarca");
+  const newLink = document.getElementById("newLink");
+  const newNotas = document.getElementById("newNotas");
+  const saveNewItemBtn = document.getElementById("saveNewItemBtn");
+
+  saveNewItemBtn.addEventListener("click", () => {
+
+    if (!newMaterial.value.trim()) {
+      alert("❌ O campo Material é obrigatório.");
+      return;
+    }
+
+    const item = {
+      quantidade: Number(newQuantidade.value) || 0,
+      material: newMaterial.value.trim(),
+      descricao: newDescricao.value.trim(),
+      marca: newMarca.value.trim(),
+      link: newLink.value.trim(),
+      notas: newNotas.value.trim()
+    };
+
+    stock.push(item);
+    saveStock();
+    renderTable();
+    closeAddModal();
+  });
+
 });
-``
