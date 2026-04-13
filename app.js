@@ -10,18 +10,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const exportBtn = document.getElementById("exportBtn");
   const darkBtn = document.getElementById("darkBtn");
 
+  /* =====================
+     PASSWORDS
+  ===================== */
+  const IMPORT_CODE = "2222";
+  const EXPORT_CODE = "2222";
+
   const saveStock = () =>
     localStorage.setItem("stock", JSON.stringify(stock));
 
   const saveHistory = () =>
     localStorage.setItem("history", JSON.stringify(history));
-
-  // Converter datas do Excel
-  const excelDateToJS = (serial) => {
-    if (typeof serial !== "number") return serial || "";
-    const utcDays = Math.floor(serial - 25569);
-    return new Date(utcDays * 86400 * 1000).toLocaleDateString("pt-PT");
-  };
 
   /* =====================
      RENDER
@@ -30,7 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tbody.innerHTML = "";
 
     if (data.length === 0) {
-      tbody.innerHTML = `<tr><td colspan="8">Nenhum resultado encontrado</td></tr>`;
+      tbody.innerHTML = `<tr><td colspan="7">Nenhum resultado encontrado</td></tr>`;
       return;
     }
 
@@ -71,9 +70,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     IMPORTAR EXCEL ✅
+     IMPORTAR EXCEL (COM PASSWORD ✅)
   ===================== */
-  importBtn.onclick = () => excelInput.click();
+  importBtn.onclick = () => {
+    const code = prompt("Código para importar Excel:");
+    if (code !== IMPORT_CODE) {
+      alert("❌ Código incorreto.");
+      return;
+    }
+    excelInput.click();
+  };
 
   excelInput.onchange = (e) => {
     const reader = new FileReader();
@@ -97,9 +103,15 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   /* =====================
-     EXPORTAR EXCEL ✅
+     EXPORTAR EXCEL (COM PASSWORD ✅)
   ===================== */
   exportBtn.onclick = () => {
+    const code = prompt("Código para exportar Excel:");
+    if (code !== EXPORT_CODE) {
+      alert("❌ Código incorreto.");
+      return;
+    }
+
     const ws = XLSX.utils.json_to_sheet(stock);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Stock");
@@ -111,6 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
   ===================== */
   window.changeQty = (index, delta) => {
     stock[index].quantidade += delta;
+
     history.push({
       data: new Date().toLocaleString("pt-PT"),
       material: stock[index].material,
@@ -118,23 +131,27 @@ document.addEventListener("DOMContentLoaded", () => {
       quantidade: Math.abs(delta),
       stockFinal: stock[index].quantidade
     });
+
     saveStock();
     saveHistory();
     renderTable();
   };
 
   /* =====================
-     ✏️ EDITAR (com password simples)
+     ✏️ EDITAR (COM PASSWORD ✅)
   ===================== */
   window.editItem = (index) => {
     const code = prompt("Código para editar:");
-    if (code !== "2222") return alert("Código errado");
+    if (code !== "2222") {
+      alert("❌ Código incorreto.");
+      return;
+    }
 
     const item = stock[index];
-    item.material = prompt("Material:", item.material);
-    item.descricao = prompt("Descrição:", item.descricao);
-    item.marca = prompt("Marca:", item.marca);
-    item.notas = prompt("Notas:", item.notas);
+    item.material = prompt("Material:", item.material) || item.material;
+    item.descricao = prompt("Descrição:", item.descricao) || item.descricao;
+    item.marca = prompt("Marca:", item.marca) || item.marca;
+    item.notas = prompt("Notas:", item.notas) || item.notas;
 
     saveStock();
     renderTable();
@@ -147,3 +164,4 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("dark");
 
 });
+``
