@@ -77,8 +77,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================================
      IMPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
   ========================================================= */
-
-  // remover listeners antigos
   importBtn.replaceWith(importBtn.cloneNode(true));
   importBtn = document.getElementById("importBtn");
 
@@ -123,7 +121,6 @@ document.addEventListener("DOMContentLoaded", () => {
   /* =========================================================
      EXPORTAR EXCEL (COM PASSWORD ✅ – VERSÃO ROBUSTA)
   ========================================================= */
-
   exportBtn.replaceWith(exportBtn.cloneNode(true));
   exportBtn = document.getElementById("exportBtn");
 
@@ -188,4 +185,19 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.toggle("dark");
   });
 
+  /* =========================================================
+     ✅ PASSO 3 — ➕ NOVO ARTIGO (ABRIR / FECHAR MODAL)
+  ========================================================= */
+  const addItemBtn = document.getElementById("addItemBtn");
+  const addModal = document.getElementById("addModal");
+
+  addItemBtn.addEventListener("click", () => {
+    addModal.classList.remove("hidden");
+  });
+
+  window.closeAddModal = () => {
+    addModal.classList.add("hidden");
+  };
+
 });
+``
