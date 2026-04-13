@@ -18,7 +18,7 @@
   <button id="importBtn">📥 Importar Excel</button>
   <button id="exportBtn">📤 Exportar Excel</button>
 
-  <!-- ✅ NOVO BOTÃO -->
+  <!-- ✅ BOTÃO NOVO ARTIGO -->
   <button id="addItemBtn">➕ Novo Artigo</button>
 
   <button id="darkBtn">🌙 / ☀️</button>
@@ -43,8 +43,32 @@
   </table>
 </main>
 
+<!-- =====================
+     MODAL: NOVO ARTIGO
+===================== -->
+<div id="addModal" class="modal hidden">
+  <div class="modal-content">
+
+    <h2>➕ Novo Artigo</h2>
+
+    <input type="number" id="newQuantidade" placeholder="Quantidade" min="0">
+    <input type="text" id="newMaterial" placeholder="Material">
+    <input type="text" id="newDescricao" placeholder="Descrição">
+    <input type="text" id="newMarca" placeholder="Marca">
+    <input type="text" id="newLink" placeholder="Link">
+    <input type="text" id="newNotas" placeholder="Notas">
+
+    <div class="modal-actions">
+      <button id="saveNewItemBtn">Guardar</button>
+      <button onclick="closeAddModal()">Cancelar</button>
+    </div>
+
+  </div>
+</div>
+
 <script src="./xlsx.full.min.js"></script>
 <script src="./app.js"></script>
 
 </body>
 </html>
+``
