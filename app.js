@@ -87,7 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* =====================
-     RENDER
+     ✅ RENDER CORRIGIDO
   ===================== */
   function renderTable(data = stock) {
     tbody.innerHTML = "";
@@ -100,7 +100,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    finalData.forEach((item, i) => {
+    finalData.forEach((item) => {
+
+      // ✅ ESTE É O FIX REAL
+      const realIndex = stock.indexOf(item);
+
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
@@ -112,9 +116,9 @@ document.addEventListener("DOMContentLoaded", () => {
         <td>${item.link ? `<a href="${item.link}" target="_blank">Link</a>` : ""}</td>
         <td>${item.notas}</td>
         <td>
-          <button onclick="changeQty(${i}, 1)">➕</button>
-          <button onclick="changeQty(${i}, -1)">➖</button>
-          <button onclick="editItem(${i})">✏️</button>
+          <button onclick="changeQty(${realIndex}, 1)">➕</button>
+          <button onclick="changeQty(${realIndex}, -1)">➖</button>
+          <button onclick="editItem(${realIndex})">✏️</button>
         </td>
       `;
 
