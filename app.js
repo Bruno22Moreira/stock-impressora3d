@@ -3,7 +3,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let stock = JSON.parse(localStorage.getItem("stock")) || [];
   let history = JSON.parse(localStorage.getItem("history")) || [];
 
+  let sortColumn = null;
+  let sortAsc = true;
+
   const tbody = document.querySelector("#stockTable tbody");
+  const headers = document.querySelectorAll("#stockTable th");
+
   const searchInput = document.getElementById("search");
   const excelInput = document.getElementById("excelInput");
   let importBtn = document.getElementById("importBtn");
@@ -33,18 +38,69 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("history", JSON.stringify(history));
 
   /* =====================
-     ✅ RENDER CORRIGIDO
+     ORDENAÇÃO
+  ===================== */
+  function sortData(data) {
+    if (!sortColumn) return data;
+
+    return [...data].sort((a, b) => {
+      let valA = a[sortColumn] || "";
+      let valB = b[sortColumn] || "";
+
+      if (typeof valA === "number" && typeof valB === "number") {
+        return sortAsc ? valA - valB : valB - valA;
+      }
+
+      return sortAsc
+        ? String(valA).localeCompare(String(valB))
+        : String(valB).localeCompare(String(valA));
+    });
+  }
+
+  headers.forEach((th, index) => {
+    th.style.cursor = "pointer";
+
+    th.addEventListener("click", () => {
+
+      const columns = [
+        "idf",
+        "quantidade",
+        "material",
+        "descricao",
+        "marca",
+        "link",
+        "notas"
+      ];
+
+      const selected = columns[index];
+      if (!selected) return;
+
+      if (sortColumn === selected) {
+        sortAsc = !sortAsc;
+      } else {
+        sortColumn = selected;
+        sortAsc = true;
+      }
+
+      renderTable();
+    });
+  });
+
+  /* =====================
+     RENDER
   ===================== */
   function renderTable(data = stock) {
     tbody.innerHTML = "";
 
-    if (data.length === 0) {
+    let finalData = sortData(data);
+
+    if (finalData.length === 0) {
       tbody.innerHTML =
         `<tr><td colspan="8">Nenhum resultado encontrado</td></tr>`;
       return;
     }
 
-    data.forEach((item, i) => {
+    finalData.forEach((item, i) => {
       const tr = document.createElement("tr");
 
       tr.innerHTML = `
@@ -223,4 +279,3 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
-``
