@@ -5,6 +5,7 @@
   <title>Stock Impressora 3D</title>
   <link rel="stylesheet" href="./style.css">
 </head>
+
 <body>
 
 <header class="top-bar">
@@ -18,7 +19,6 @@
   <button id="importBtn">📥 Importar Excel</button>
   <button id="exportBtn">📤 Exportar Excel</button>
 
-  <!-- ✅ BOTÃO NOVO ARTIGO -->
   <button id="addItemBtn">➕ Novo Artigo</button>
 
   <button id="darkBtn">🌙 / ☀️</button>
@@ -30,6 +30,7 @@
   <table id="stockTable">
     <thead>
       <tr>
+        <th>IDF</th>
         <th>Quantidade</th>
         <th>Material</th>
         <th>Descrição</th>
@@ -51,6 +52,8 @@
 
     <h2>➕ Novo Artigo</h2>
 
+    <input type="text" id="newIdf" placeholder="IDF">
+
     <input type="number" id="newQuantidade" placeholder="Quantidade" min="0">
     <input type="text" id="newMaterial" placeholder="Material">
     <input type="text" id="newDescricao" placeholder="Descrição">
@@ -71,4 +74,3 @@
 
 </body>
 </html>
-``
